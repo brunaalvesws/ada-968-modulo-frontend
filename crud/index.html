@@ -7,6 +7,10 @@
     <title>Pokemon Bag Items Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+        .error {
+            color: red;
+            font-size: 15px;
+        }
     </style>
     <script src="./crudRemote.js"></script>
 </head>
@@ -27,9 +31,18 @@
         <p><b>Add new Item</b></p>
         <div>
             <input id="itemName" type="text" placeholder="New item">
+            <span id="errorName" class="error">
+               Invalid name :(
+            </span>
+            <span id="errorNameExists" class="error">
+                This item already exists :(
+             </span>
         <div>
         <div>
             <input id="itemPrice" type="number" placeholder="Item price"> 
+            <span id="errorPrice" class="error">
+                Invalid price :(
+            </span>
         </div>
         <button type="submit">Add</button>
     </form>

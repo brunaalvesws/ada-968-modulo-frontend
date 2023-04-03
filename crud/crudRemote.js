@@ -117,19 +117,27 @@ function createItemsList(list) {
 }
 
 async function onSubmit() {
+  resetError();
   event.preventDefault();
   const nomeEl = document.getElementById("itemName");
   const precoEl = document.getElementById("itemPrice");
   const nome = nomeEl.value;
   const preco = precoEl.value;
 
-  if (nome === "") return;
-  if (preco === "") return;
+  let list = await getAll();
+
+  if (verifyEntry(nome, preco)) {
+    return
+  }
+
+  if (verifyItemAlreadyExists(nome, list)) {
+    return
+  }
 
   const item = { name: nome, price: preco };
 
   await saveRemote(item);
-  const list = await getAll();
+  list = await getAll();
   saveLocal(list)
   createItemsList(list);
 
@@ -138,6 +146,7 @@ async function onSubmit() {
 }
 
 window.onload = async () => {
+  resetError();
   let list = ''
 
   if (getLocal().length !== 0) {
@@ -148,3 +157,31 @@ window.onload = async () => {
   }
   createItemsList(list);
 };
+
+function verifyItemAlreadyExists(item,lista) {
+  if (lista.find((a) => a.name === item)) {
+    document.querySelector("#errorNameExists").style.display = "inline";
+    return true
+  } else {
+    return false
+  }
+}
+
+function verifyEntry (entryname, entryprice) {
+  let deuErro = false
+  if (entryname == "") {
+    document.querySelector("#errorName").style.display = "inline";
+    deuErro = true
+  }
+  if (entryprice == "") {
+    document.querySelector("#errorPrice").style.display = "inline";
+    deuErro = true
+  }
+  return deuErro
+}
+
+function resetError() {
+  document.querySelectorAll(".error").forEach((el) => {
+      el.style.display = 'none'
+  });
+}
