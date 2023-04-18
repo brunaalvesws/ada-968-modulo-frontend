@@ -59,7 +59,7 @@ body {
 #restart {
   padding-top: 10px;
   align-items: center;
-  display: flex;
+  display: none;
   justify-content: center;
 }
 
@@ -75,7 +75,7 @@ img {
 }
 
 #forca {
-  background-color: #eee;
+  background-color: #496742;
 }
 
 h1 {
@@ -167,7 +167,7 @@ margin: 50px auto;
 width: 688px;
 height: 350px;
 font: 71%/1.5 Verdana, Sans-Serif;
-background: #eee;
+background: #496742;
 }
 #write {
 margin: 0 0 5px;
@@ -206,8 +206,8 @@ justify-content: space-between;
           width: 70px;
           }
           
-          #keyboard .capslock {
-          width: 80px;
+          #keyboard .disable {
+            background: #b2b2b2;
           }
           
           #keyboard .return {
@@ -258,3 +258,39 @@ justify-content: space-between;
       border-color: #e5e5e5;
       cursor: pointer;
       }
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black background with opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  color: #496742;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+      

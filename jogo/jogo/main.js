@@ -1,71 +1,84 @@
 function Digitar(letra) {
-  var $write = $('#write');
-  var html = $write.html();
-
+  var txtarea = document.getElementById("write")
+  var html = txtarea.value
+  if ($(`#${letra}`).hasClass("disable")) {
+    return false
+  }
   if (letra === "del") {
     $write.html(html.substr(0, html.length - 1));
     return false;
   }
-
   if (letra === "try") {
-    tryLetter(html)
+    tryLetter()
     return false;
   }
-
   if (letra === "guess") {
-    guess(html)
+    guess()
     return false;
   }
 
-  $write.html($write.html() + letra);
+  txtarea.value = txtarea.value + letra;
 
 };
 
 var letterWrong = []
 var hangman = [head, body, leftArm, rightArm, leftLeg, rightLeg]
 
-function tryLetter(letra) {
+function tryLetter() {
   var $guess = $('#palavra');
   var $tries = $('#tries');
   var tried = $tries.html();
   var answer = $guess.attr("data-value")
   var update = ""
   var decodedAnswer = $guess.html();
-  console.log(decodedAnswer)
-  var $write = $('#write');
-  if (answer.toLowerCase().includes(letra)){
+  var txtarea = document.getElementById("write")
+  if (txtarea.value.length > 1){
+    alert("Você só pode dar palpite de uma letra por vez, se quiser dar um palpite da música toda, use o botão 'palpitar a música'")
+    txtarea.value = ""
+    return
+  }
+  if (answer.toLowerCase().includes(txtarea.value)){
     for (var i = 0; i < answer.length; i++) {
-      if (answer[i].toLowerCase()===letra){
+      if (answer[i].toLowerCase()===txtarea.value){
         update = update + answer[i]
       } else {
         update = update + decodedAnswer[i]
       }
     }
     $guess.html(update)
+    $tries.html(tried+" "+txtarea.value)
     if (!update.includes("_")){
       alert("Você ganhou")
     }
   } else {
-    letterWrong.push(letra)
-    hangman[(letterWrong.length-1)]()
-    if (letterWrong.length === 6){
-      alert("Você perdeu!")
-      $('#restart').show();
+    if (!letterWrong.includes(txtarea.value)) {
+      letterWrong.push(txtarea.value)
+      $tries.html(tried+" "+txtarea.value)
+      $(`#${txtarea.value}`).addClass("disable")
+      hangman[(letterWrong.length-1)]()
+      if (letterWrong.length === 6){
+        alert("Você perdeu! A resposta era " + answer)
+        var restart = document.getElementById("restart")
+        restart.style.display = "flex";
+      }
     }
   }
-  $write.html("")
-  $tries.html(tried+" "+letra)
+  txtarea.value = ""
 }
 
-function guess (palavra) {
+function guess () {
+  var txtarea = document.getElementById("write")
   var $guess = $('#palavra');
-  var answer = $guess.attr("data-value").toLowerCase()
-  if (palavra === answer) {
-    alert("Você ganhou")
+  var answer = $guess.attr("data-value")
+  if (txtarea.value === answer.toLowerCase()) {
+    alert("Você ganhou!")
+    var restart = document.getElementById("restart")
+    restart.style.display = "flex";
   } else {
-    alert("Você perdeu!")
+    alert("Você perdeu! A resposta era " + answer)
     var hangmanLose = [head(), body(), leftArm(), rightArm(), leftLeg(), rightLeg()]
-    $('#restart').show();
+    var restart = document.getElementById("restart")
+    restart.style.display = "flex";
   }
 }
 
@@ -78,7 +91,7 @@ async function getArtists(access_token) {
       }
     });
   const artists = await response.json()
-  const getRandom = Math.floor(Math.random() * 10)
+  const getRandom = Math.floor(Math.random() * 20)
   var artist = artists.artists.items[getRandom]
   var artistName = artist.name
   var songName = await getArtistsInfo(access_token, artist.id)
@@ -97,7 +110,8 @@ async function getArtistsInfo(access_token, id) {
   const tracks = await response.json()
   const getRandom = Math.floor(Math.random() * 10)
   var song = tracks.tracks[getRandom]
-  while (song.name.includes("-")) {
+  const regex = /^[a-zA-Z]+$/
+  while (!regex.test(song.name)) {
     const getRandom = Math.floor(Math.random() * 10)
     var song = tracks.tracks[getRandom]
   }
@@ -114,6 +128,7 @@ async function showMusica(access_token) {
   $guess.attr("data-value", musica.song)
   $guess.html(decode);
   $tip.html("Essa música é de: " + musica.artist);
+  setModal();
 }
 
 function decodeMusic (string) {
@@ -204,4 +219,25 @@ function suporte() {
 
 function Restart () {
   window.location.reload()
+}
+
+function setModal () {
+  var modal = document.querySelector(".modal");
+  var btn = document.querySelector(".btn-open-modal");
+  var span = document.querySelector(".close");
+  modal.style.display = "block";
+
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
 }

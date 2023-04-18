@@ -4,16 +4,27 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Guess the song</title>
+    <title>Adivinhe a música</title>
     <script src="./main.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
     <div id="app">
       <div class="container">
+        <div class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Bem vindo(a) ao jogo Adivinhe a música!</h3> 
+            <p>Esse jogo é inspirado no jogo da forca, só que você deve adivinhar o nome de uma música de um artista que você segue no Spotify.</p>
+            <p>A dica é o nome do artista e você possui tentativas até montar o bonequinho completo na forca :p</p>
+            <p>Para dar um palpite, digite uma letra e aperte 'papiltar uma letra', para arriscar o nome da música, 
+              digite seu palpite e aperte 'palpitar a musica'.</p>
+              <p> Para rever essas orientações, clique no botão 'Como jogar?'</p>
+          </div>
+        </div>
         <div id="login">
-          <h1>Guess the song!</h1>
-          <h3>Before start playing, log in with your Spotify account so that we can choose something you like to make your challenge</h3>
+          <h1>Adivinhe a música!</h1>
+          <h3>Antes de começar, faça login no Spotify para deixarmos o desafio a sua cara</h3>
           <a href="http://localhost:9999/login" class="btn btn-primary">Log in with Spotify</a>
         </div>
         <br>
@@ -23,6 +34,9 @@
           <div id="oauth">
           </div>
           <div id="guessgame" class="col-12">
+            <div class="col-3">
+              <button class="btn-open-modal btn-primary" id="openModal">Como jogar?</button>
+            </div>
             <div id="forca-container">
               <canvas id="forca" width="200" height="225"></canvas>
             </div>
@@ -39,37 +53,37 @@
             <div class="kb">
               <textarea id="write" rows="4" cols="60"></textarea>
               <ul id="keyboard">
-                  <li class="letter" onclick="Digitar('q')">q</li>
-                  <li class="letter" onclick="Digitar('w')">w</li>
-                  <li class="letter" onclick="Digitar('e')">e</li>
-                  <li class="letter" onclick="Digitar('r')">r</li>
-                  <li class="letter" onclick="Digitar('t')">t</li>
-                  <li class="letter" onclick="Digitar('y')">y</li>
-                  <li class="letter" onclick="Digitar('u')">u</li>
-                  <li class="letter" onclick="Digitar('i')">i</li>
-                  <li class="letter" onclick="Digitar('o')">o</li>
-                  <li class="letter" onclick="Digitar('p')">p</li>
-                  <li class="letter" onclick="Digitar('a')">a</li>
-                  <li class="letter" onclick="Digitar('s')">s</li>
-                  <li class="letter" onclick="Digitar('d')">d</li>
-                  <li class="letter" onclick="Digitar('f')">f</li>
-                  <li class="letter" onclick="Digitar('g')">g</li>
-                  <li class="letter" onclick="Digitar('h')">h</li>
-                  <li class="letter" onclick="Digitar('j')">j</li>
-                  <li class="letter" onclick="Digitar('k')">k</li>
-                  <li class="letter" onclick="Digitar('l')">l</li>
-                  <li class="letter" onclick="Digitar('z')">z</li>
-                  <li class="letter" onclick="Digitar('x')">x</li>
-                  <li class="letter" onclick="Digitar('c')">c</li>
-                  <li class="letter" onclick="Digitar('v')">v</li>
-                  <li class="letter" onclick="Digitar('b')">b</li>
-                  <li class="letter" onclick="Digitar('n')">n</li>
-                  <li class="letter" onclick="Digitar('m')">m</li>
-                  <li class="letter" onclick="Digitar('ç')">ç</li>
+                  <li class="letter" id="q" onclick="Digitar('q')">q</li>
+                  <li class="letter" id="w" onclick="Digitar('w')">w</li>
+                  <li class="letter" id="e" onclick="Digitar('e')">e</li>
+                  <li class="letter" id="r" onclick="Digitar('r')">r</li>
+                  <li class="letter" id="t" onclick="Digitar('t')">t</li>
+                  <li class="letter" id="y" onclick="Digitar('y')">y</li>
+                  <li class="letter" id="u" onclick="Digitar('u')">u</li>
+                  <li class="letter" id="i" onclick="Digitar('i')">i</li>
+                  <li class="letter" id="o" onclick="Digitar('o')">o</li>
+                  <li class="letter" id="p" onclick="Digitar('p')">p</li>
+                  <li class="letter" id="a" onclick="Digitar('a')">a</li>
+                  <li class="letter" id="s" onclick="Digitar('s')">s</li>
+                  <li class="letter" id="d" onclick="Digitar('d')">d</li>
+                  <li class="letter" id="f" onclick="Digitar('f')">f</li>
+                  <li class="letter" id="g" onclick="Digitar('g')">g</li>
+                  <li class="letter" id="h" onclick="Digitar('h')">h</li>
+                  <li class="letter" id="j" onclick="Digitar('j')">j</li>
+                  <li class="letter" id="k" onclick="Digitar('k')">k</li>
+                  <li class="letter" id="l" onclick="Digitar('l')">l</li>
+                  <li class="letter" id="z" onclick="Digitar('z')">z</li>
+                  <li class="letter" id="x" onclick="Digitar('x')">x</li>
+                  <li class="letter" id="c" onclick="Digitar('c')">c</li>
+                  <li class="letter" id="v" onclick="Digitar('v')">v</li>
+                  <li class="letter" id="b" onclick="Digitar('b')">b</li>
+                  <li class="letter" id="n" onclick="Digitar('n')">n</li>
+                  <li class="letter" id="m" onclick="Digitar('m')">m</li>
+                  <li class="letter" id="ç" onclick="Digitar('ç')">ç</li>
                   <li class="delete lastitem" onclick="Digitar('del')">delete</li>
-                  <li class="space lastitem" onclick="Digitar(' ')">&nbsp;</li>
-                  <li class="try lastitem" onclick="Digitar('try')">try</li>
-                  <li class="guess lastitem" onclick="Digitar('guess')">guess</li>
+                  <li class="space lastitem" onclick="Digitar(' ')">space</li>
+                  <li class="try lastitem" onclick="Digitar('try')">palpitar uma letra</li>
+                  <li class="guess lastitem" onclick="Digitar('guess')">palpitar a música</li>
               </ul>
           </div>
           </div>
@@ -78,29 +92,19 @@
       </div>
   
       <script id="user-profile-template" type="text/x-handlebars-template">
-        <h3>Logged in as {{display_name}}</h3>
+        <h3>Logado como {{display_name}}</h3>
         <div class="media">
           <div class="pull-left">
             <img class="media-object" width="100" src="{{images.0.url}}" />
           </div>
           <div class="media-body">
             <dl class="dl-horizontal">
-              <!--<dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-              <dt>Id</dt><dd>{{id}}</dd>
-              <dt>Email</dt><dd>{{email}}</dd>
-              <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-              <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-              <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>-->
             </dl>
           </div>
         </div>
       </script>
   
       <script id="oauth-template" type="text/x-handlebars-template">
-        <!--<h2>oAuth info</h2>
-        <dl class="dl-horizontal">
-          <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-          <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>-->
         </dl>
       </script>
   
