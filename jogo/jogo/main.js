@@ -1,25 +1,24 @@
+//funcionamento do teclado
+
 function Digitar(letra) {
   var txtarea = document.getElementById("write")
   var html = txtarea.value
-  if ($(`#${letra}`).hasClass("disable")) {
-    return false
-  }
+  if ($(`#${letra}`).hasClass("disable")) return false;
+
   if (letra === "del") {
     $write.html(html.substr(0, html.length - 1));
     return false;
-  }
-  if (letra === "try") {
+  } else if (letra === "try") {
     tryLetter()
     return false;
-  }
-  if (letra === "guess") {
+  } else if (letra === "guess") {
     guess()
     return false;
   }
-
   txtarea.value = txtarea.value + letra;
-
 };
+
+//mecanica do jogo
 
 var letterWrong = []
 var hangman = [head, body, leftArm, rightArm, leftLeg, rightLeg]
@@ -74,12 +73,14 @@ function guess () {
   if (txtarea.value === answer.toLowerCase()) {
     alert("Você ganhou!")
   } else {
-    alert("Você perdeu! A resposta era " + answer)
     var hangmanLose = [head(), body(), leftArm(), rightArm(), leftLeg(), rightLeg()]  
+    alert("Você perdeu! A resposta era " + answer)
   }
   var restart = document.getElementById("restart")
   restart.style.display = "flex";
 }
+
+//requisições para a API do spotify trazer os dados do usuário
 
 async function getArtists(access_token) {
   const response = await fetch(
@@ -105,7 +106,6 @@ async function getArtistsInfo(access_token, id) {
         'Authorization': 'Bearer ' + access_token
       }
     });
-  console.log(response)
   const tracks = await response.json()
   const getRandom = Math.floor(Math.random() * 10)
   var song = tracks.tracks[getRandom]
@@ -117,42 +117,14 @@ async function getArtistsInfo(access_token, id) {
   return song.name
 }
 
-
-async function showMusica(access_token) {
-  var $guess = $('#palavra');
-  var $tip = $('#tip');
-  var musica = await getArtists(access_token);
-  console.log(musica.song)
-  var decode = decodeMusic(musica.song)
-  $guess.attr("data-value", musica.song)
-  $guess.html(decode);
-  $tip.html("Essa música é de: " + musica.artist);
-  setModal();
-}
-
-function decodeMusic (string) {
-  var decoded = ""
-  for (var i = 0; i < string.length; i++) {
-    if (string[i] === " ") {
-      decoded = decoded + "-"
-    } else {
-      decoded = decoded + "_"
-    }
-  }
-  return decoded
-}
-
-function desenhaTela() {
-  const canvas = document.getElementById("forca");
-  const context = canvas.getContext("2d");
-}
+//funções de desenhar o bonequinho na forca
 
 function head() {
   const canvas = document.getElementById("forca");
   const context = canvas.getContext("2d");
   context.lineWidth = 5;
   context.beginPath();
-  context.arc(100, 50, 25, 0, Math.PI * 2, true);
+  context.arc(100, 45, 20, 0, Math.PI * 2, true);
   context.closePath();
   context.stroke();
 }
@@ -161,8 +133,8 @@ function body() {
   const canvas = document.getElementById("forca");
   const context = canvas.getContext("2d");
   context.beginPath();
-  context.moveTo(100, 75);
-  context.lineTo(100, 140);
+  context.moveTo(100, 65);
+  context.lineTo(100, 130);
   context.stroke();
 }
 
@@ -170,7 +142,7 @@ function rightArm() {
   const canvas = document.getElementById("forca");
   const context = canvas.getContext("2d");
   context.beginPath();
-  context.moveTo(100, 85);
+  context.moveTo(100, 75);
   context.lineTo(60, 100);
   context.stroke();
 }
@@ -178,7 +150,7 @@ function leftArm() {
   const canvas = document.getElementById("forca");
   const context = canvas.getContext("2d");
   context.beginPath();
-  context.moveTo(100, 85);
+  context.moveTo(100, 75);
   context.lineTo(140, 100);
   context.stroke();
 }
@@ -187,7 +159,7 @@ function rightLeg() {
   const canvas = document.getElementById("forca");
   const context = canvas.getContext("2d");
   context.beginPath();
-  context.moveTo(100, 140);
+  context.moveTo(100, 130);
   context.lineTo(80, 190);
   context.stroke();
 }
@@ -195,7 +167,7 @@ function leftLeg() {
   const canvas = document.getElementById("forca");
   const context = canvas.getContext("2d");
   context.beginPath();
-  context.moveTo(100, 140);
+  context.moveTo(100, 130);
   context.lineTo(125, 190);
   context.stroke();
 }
@@ -213,6 +185,27 @@ function suporte() {
   context.lineTo(100, 5);
   context.lineTo(100, 25);
   context.stroke();
+}
+
+//funções que montam a tela inicial
+
+function decodeMusic (string) {
+  var decoded = ""
+  for (var i = 0; i < string.length; i++) {
+    (string[i] === " ") ? decoded = decoded + "-" : decoded = decoded + "_";
+  }
+  return decoded
+}
+
+async function showMusica(access_token) {
+  var $guess = $('#palavra');
+  var $tip = $('#tip');
+  var musica = await getArtists(access_token);
+  var decode = decodeMusic(musica.song)
+  $guess.attr("data-value", musica.song)
+  $guess.html(decode);
+  $tip.html("Essa música é de: " + musica.artist);
+  setModal();
 }
 
 
@@ -282,7 +275,6 @@ window.onload = () => {
                   $('#loggedin').show();
                   $('#guessgame').show();
                   showMusica(access_token)
-                  desenhaTela()
                   suporte()
                 }
             });

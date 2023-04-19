@@ -23,7 +23,10 @@ body {
 }
 
 .container {
+  width: 100%;
   align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 #forca-container {
@@ -84,8 +87,8 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 10px;
+  display: flex;
+  justify-content: centerx;
   align-items: center;
 }
 
@@ -186,9 +189,8 @@ padding: 0;
 list-style: none;
 justify-content: space-between;
 }
-  #keyboard li {
-  float: left;
-  margin: 0 5px 5px 0;
+  #keyboard button {
+  margin: 0 2px 5px 0;
   width: 40px;
   height: 40px;
   line-height: 40px;
@@ -203,7 +205,7 @@ justify-content: space-between;
       }
       
           #keyboard .tab, #keyboard .delete {
-          width: 70px;
+          width: 130px;
           }
           
           #keyboard .disable {
@@ -237,13 +239,13 @@ justify-content: space-between;
       
       #keyboard .try {
         clear: left;
-        width: 330px;
+        width: 337px;
         background: #eca25d;
       }
 
       #keyboard .guess {
         clear: right;
-        width: 330px;
+        width: 337px;
         background: #ed5656;
       }
       
@@ -276,7 +278,7 @@ justify-content: space-between;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 40%; /* Could be more or less, depending on screen size */
   color: #496742;
 }
 
